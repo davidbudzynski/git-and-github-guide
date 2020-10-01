@@ -1,0 +1,271 @@
+#+TITLE: Introduction To Version Control using Git and GitHub
+#+AUTHOR: David Budzynski
+
+[[file:assets/500px-Git-logo.svg.png]]
+
+* What is version control?
+
+Version control systems are a category of software tools that help a software team manage changes to source code over time. Version control software keeps track of every modification to the code in a special kind of database. If a mistake is made, developers can turn back the clock and compare earlier versions of the code to help fix the mistake while minimizing disruption to all team members.
+
+* Benefits of version control systems
+
+Developing software without using version control is risky, like not having backups. Version control can also enable developers to move faster and it allows software teams to preserve efficiency and agility as the team scales to include more developers.
+
+One of the most popular Version Control Ssystem (VCS) tools in use today is called Git. Git is a Distributed VCS, a category known as DVCS, more on that later. Like many of the most popular VCS systems available today, Git is free and open source. Regardless of what they are called, or which system is used, the primary benefits you should expect from version control are as follows.
+
+- A complete long-term change history of every file. This means every change made by many individuals over the years. Changes include the creation and deletion of files as well as edits to their contents. This history should also include the author, date and written notes on the purpose of each change. Having the complete history enables going back to previous versions to help in root cause analysis for any issues.
+
+- Branching and merging. Having team members work concurrently is a no-brainer, but even individuals working on their own can benefit from the ability to work on independent streams of changes. Creating a "branch" in VCS tools keeps multiple streams of work independent from each other while also providing the facility to merge that work back together, enabling developers to verify that the changes on each branch do not conflict. This means that we no longer have to have multiple files with similar content but minor changes introduced by different people in our team.
+
+* What is Git
+
+Git is a version control system. Its original purpose was to help groups of developers work collaboratively on big software projects. Git manages the evolution of a set of files – called a repository – in a sane, highly structured way. If you have no idea what I’m talking about, think of it as the “Track Changes” features from Microsoft Word on steroids.
+
+Git has been re-purposed by the data science community. In addition to using it for source code, we use it to manage the motley collection of files that make up typical data analytical projects, which often consist of data, figures, reports, and, yes, source code.
+
+* Why we should start using git
+
+** Branch workflow
+
+One of the biggest advantages of Git is its branching capabilities. Unlike centralized version control systems, Git branches are cheap and easy to merge. This facilitates the feature branch workflow popular with many Git users.
+
+[[file:assets/Screen Shot 2020-10-01 at 09.14.51.png]]
+
+Feature branches provide an isolated environment for every change to your codebase. When a developer wants to start working on something—no matter how big or small—they create a new branch. This ensures that the master branch always contains production-quality code.
+
+** Distributed Development
+
+Git is a distributed version control system. Instead of a working copy, each developer gets their own local repository, complete with a full history of commits. Having a full local history makes Git fast, since it means you don’t need a network connection to create commits, inspect previous versions of a file, or perform diffs between commits. And, similar to feature branches, distributed development creates a more reliable environment. Even if a developer obliterates their own repository, they can simply clone someone else’s and start anew.
+
+** Pull Requests
+
+Many source code management tools such as Github enhance core Git functionality with pull requests. A pull request is a way to ask another developer to merge one of your branches into their repository. This not only makes it easier for project leads to keep track of changes, but also lets developers initiate discussions around their work before integrating it with the rest of the codebase.
+
+[[file:assets/Screen Shot 2020-10-01 at 09.27.42.png]]
+
+* What is GitHub
+
+GitHub is a hosting service that provides a home for your Git-based projects on the internet. Think of it as DropBox but much, much better. The remote host acts as a distribution channel or clearinghouse for your Git-managed project. It allows other people to see your stuff, sync up with you, and perhaps even make changes. These hosting providers improve upon traditional Unix Git servers with well-designed web-based interfaces.
+
+Even for private solo projects, it’s a good idea to push your work to a remote location for peace of mind. Why? Because it’s fairly easy to screw up your local Git repository, especially when you’re new at this. The good news is that often only the Git infrastructure is borked up. Your files are just fine! Which makes your Git pickle all the more frustrating. There are official Git solutions to these problems, but they might require expertise and patience. If you’ve recently pushed your work to GitHub, it’s easy to grab a fresh copy, patch things up with the changes that only exist locally, and get on with your life.
+
+* Installation Guide
+
+** Register a GitHub Account
+
+Click [[https://github.com/][here]] to go directly to the website.
+
+*** Username advice
+
+GitHub is the most popular developer platform, anyone remotely interested in programming should have an account there. It is also very common for potential employers in the field to vet your profile to see what your skills and code related interest are, so you *should think about your username first*. Here are some tips:
+
+- Use your actual name. It makes your username easy to recognize by others you're working with and easy for you to remember
+- Pick a username you will be comfortable revealing to your future boss
+- Shorter usernames are better
+- Make it timeless. Don’t highlight your current university, employer, or place of residence, e.g. DaveFromTheBlock
+- Avoid the use of upper vs. lower case to separate words. We highly recommend all lowercase. GitHub treats usernames in a case insensitive way, but using all lowercase is kinder to people doing downstream regular expression work with usernames, in various languages. A better strategy for word separation is to use a hyphen ~-~ or underscore ~_~
+- You can change your username later, but better to get this right the first time because you will lose your commit history of your projects
+
+** Install Git
+
+You need Git, so you can use it at the command line and so RStudio can call it. Go to [[https://git-scm.com/][this]] website to find the download. Once the download is finished, go through the installation process, I think the default settings are fine but you might want to consult that with me or Google around if you're not sure about it.
+
+** Configure Git and GitHub
+
+*** Setup Git
+
+For Git to work properly, we need to let it know who we are so that it can link a local Git user (you) to GitHub. When working on a team, this allows people to see what you have committed and who committed each line of code.
+
+The commands below will configure Git. Be sure to enter your own information inside the quotes (but include the quotation marks)! Don't copy both lines at the same time to the terminal because these are separate commands and it will confuse your computer. Enter these commands into newly installed Git Bash terminal not Windows' power shell or any other windows terminal.
+
+*Note:* Your name and email here don't have to match your GitHub username and email. The name and email here are only for information purposes when you are using Git so others can identify you. You can use your real name and work email.
+
+#+BEGIN_SRC bash
+git config --global user.name "Your Name"
+git config --global user.email "yourname@example.com"
+#+END_SRC
+
+To enable colorful output, type
+
+#+BEGIN_SRC bash
+git config --global color.ui auto
+#+END_SRC
+
+To verify things are working properly, enter these commands and verify that the output matches your name and email address.
+
+#+BEGIN_SRC bash
+git config --get user.name
+git config --get user.email
+#+END_SRC
+
+*** Create an SSH Key
+
+An SSH key is a cryptographically secure identifier. It’s like a really long password used to identify your machine. GitHub uses SSH keys to allow you to upload to your repository without having to type in your username and password every time.
+
+First, we need to see if you have an SSH key already installed. Type this into the terminal:
+
+#+BEGIN_SRC
+ls ~/.ssh/id_rsa.pub
+#+END_SRC
+
+If a message appears in the console containing the text “No such file or directory”, then you do not yet have an SSH key, and you will need to create one. If no message has appeared in the console output, you already have a key and can proceed to the next step.
+
+To create a new SSH key, run the following command inside your terminal. The ~-C~ flag followed by your email address ensures that GitHub knows who you are.
+
+*Note:* The angle brackets (~< >~) in the code snippet below indicate that you should replace that part of the command with the appropriate information. Do not include the brackets themselves in your command. For example, if your email address is ~yourname@alphaplus.co.uk~, then you would type ~ssh-keygen -C yourname@alphaplus.co.uk~.
+
+#+BEGIN_SRC bash
+ssh-keygen -C <youremail>
+#+END_SRC
+
+- When it prompts you for a location to save the generated key, just push ~Enter~.
+- Next, it will ask you for a password; enter one if you wish, but it’s not required.
+
+*** Link your SSH Key with GitHub
+
+Now, you need to tell GitHub what your SSH key is so that you can push your code without typing in a password every time.
+
+First, you’ll navigate to where GitHub receives our SSH key. Log into GitHub and click on your profile picture in the top right corner. Then, click on ~Settings~ in the drop-down menu.
+
+Next, on the left-hand side, click ~SSH and GPG keys~. Then, click the green button in the top right corner that says ~New SSH Key~. Name your key something that is descriptive enough for you to remember where it came from. Leave this window open while you do the next steps.
+
+Now you need to copy your public SSH key. To do this, we’re going to use a command called cat to read the file to the console. (Note that the ~.pub~ file extension is important in this case.)
+
+#+BEGIN_SRC bash
+cat ~/.ssh/id_rsa.pub
+#+END_SRC
+
+Highlight and copy the output, which starts with ~ssh-rsa~ and ends with your email address.
+
+Now, go back to GitHub in your browser window and paste the key you copied into the key field. Then, click ~Add SSH key~. You’re done! You’ve successfully added your SSH key!
+
+*** Testing Your Key
+
+Follow the directions in this [[https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/testing-your-ssh-connection][article from GitHub]] to verify your SSH connection.
+
+* Git Basics
+
+** Introduction
+
+In this part, we'll cover common Git commands used to manage your projects and to upload your work onto GitHub. We refer to these commands as the basic Git workflow. When you’re using Git, these are the commands that you’ll use 70-80% of the time, so if you can get these down, you’ll be more than halfway done mastering Git!
+
+RStudio comes with an integrated Git client, so you are able to use it without writing anything in the terminal. However, it is important that you understand how Git works by knowing how to use it from the terminal because it will make your workflow quicker and less painful in the long run.
+
+This video should explain all the basics that you need to know and can use later on (don't worry if it gets too complicated for you and you don't understand everything):
+
+#+BEGIN_export html
+<iframe width="727" height="409" src="https://www.youtube.com/embed/HVsySz-h9r4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#+END_export
+
+If you don't feel like you can start writing your code in R and use all of these commands, this video explains how to use RStudio's built in Git functionality. Some of those parts will be essential for our day to day work in the office (e.g. setting up projects instead of using ~git init~)
+
+*Note:* I do not recommend to copy the GitHub setup shown in that video. You have already set up SSH keys and you shouldn't have issues if you skip that step in the video.
+
+#+BEGIN_export html
+<iframe width="727" height="409" src="https://www.youtube.com/embed/kL6L2MNqPHg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#+END_export
+
+You can also read [[https://nceas.github.io/oss-lessons/version-control/4-getting-started-with-git-in-RStudio.html][this article]] that goes through the most of what was covered in the video above.
+
+** Configuring ignored files for a single repository
+
+You can create a /.gitignore/ file in your repository's root directory to tell Git which files and directories to ignore when you make a commit (it's probably a good idea to add your data files to this list). To share the ignore rules with other users who clone the repository, commit the /.gitignore/ file in to your repository.
+
+How to create a /.gitignore/ file:
+
+1. Open Git Bash terminal in a folder that contains your R project with git repository or navigate to it using terminal
+2. Type ~touch .gitignore~ and press ~RETURN~
+
+*Note:* You won't get any response from the terminal after writing this command (if you don't get an error and don't see anything it means it did what you asked it to do). It is also very likely that you won't see the /.gitignore/ file in your folder because it starts with the dot, meaning it is a hidden file. You will need to enable hidden files and folders to see it.
+
+*** Example /.gitignore/ file
+
+GitHub maintains an official list of recommended /.gitignore/ files for many popular operating systems, environments, and languages in the ~github/gitignore~ public repository. You can also use gitignore.io to create a /.gitignore/ file for your operating system, programming language, or IDE. For more information, see [[https://github.com/github/gitignore]["github/gitignore"]] and the [[https://www.toptal.com/developers/gitignore][gitignore.io]] site.
+
+This is how an expamle /.gitignore/ file would look like:
+
+#+BEGIN_EXAMPLE
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# R.Bookdown Stack
+# R package: bookdown caching files
+/*_files/
+
+# data folder (named "data")
+
+data/
+#+END_EXAMPLE
+
+
+** Cheatsheet
+
+This is a reference list of the most commonly used Git commands. Try to familiarize yourself with the commands so that you can eventually remember them all:
+
+- Commands related to a remote repository:
+  + ~git clone git@github.com:USER-NAME/REPOSITORY-NAME.git~ or ~git clone https://github.com/user-name/repository-name.git~
+  + ~git push origin master~
+- Commands related to workflow:
+  + ~git add .~
+  + ~git commit -m "A message describing what you have done to make this snapshot different"~
+- Commands related to checking status or log history:
+  + ~git status~
+  + ~git log~
+
+The basic Git syntax is ~program | action | destination~.
+
+For example,
+
+- ~git add .~ is read as ~git | add | .~, where period represents everything in the current directory;
+- ~git commit -m "message"~ is read as ~git | commit -m | "message"~;
+- ~git status~ is read as ~git | status | (no destination)~.
+
+** Conclusion
+
+You may not feel completely comfortable with Git at this point, which is normal. It’s a skill that you will get more comfortable with as you use it. The main thing to take away from this lesson is the basic workflow. The commands you’ve learned here are the ones you will be using the most often with Git.
+
+Don’t worry if you don’t know all the commands yet or if they aren’t quite sticking in your memory yet. They will soon be seared into your brain as you use them over and over 🤓
+
+* Additional resources:
+
+1. [[https://happygitwithr.com/][This book]] explains why and how to use Git & GitHub as a data scientist
+2. The [[https://training.github.com/downloads/github-git-cheat-sheet/][Git Cheat Sheet]] from GitHub provides quick instructions for using common commands
+3. [[https://www.youtube.com/watch?v=hwP7WQkmECE][Git Explained in 100 seconds]]
+4. [[https://www.youtube.com/watch?v=SWYqp7iY_Tc&t=1007s][30 minute git crash course]] that goes through the installation process and using basic commands

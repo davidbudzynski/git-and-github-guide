@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Introduction To Version Control using Git and GitHub</title>
+<!-- 2020-10-01 Thu 13:14 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Org-mode">
+<meta name="author" content="David Budzynski">
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>
+/* org mode styles on top of twbs */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-size: 18px;
+    margin-bottom: 105px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 101px;
+    background-color: #f5f5f5;
+}
+
+footer > div {
+    padding: 10px;
+}
+
+footer p {
+    margin: 0 0 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#table-of-contents {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+blockquote p {
+    font-size: 18px;
+}
+
+pre {
+    font-size: 16px;
+}
+
+.footpara {
+    display: inline-block;
+}
+
+figcaption {
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  padding-bottom: 15px;
+}
+
+/* from twbs docs */
+
+.bs-docs-sidebar.affix {
+    position: static;
+}
+@media (min-width: 768px) {
+    .bs-docs-sidebar {
+        padding-left: 20px;
+    }
+}
+
+/* All levels of nav */
+.bs-docs-sidebar .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999;
+}
+.bs-docs-sidebar .nav > li > a:hover,
+.bs-docs-sidebar .nav > li > a:focus {
+    padding-left: 19px;
+    color: #A1283B;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid #A1283B;
+}
+.bs-docs-sidebar .nav > .active > a,
+.bs-docs-sidebar .nav > .active:hover > a,
+.bs-docs-sidebar .nav > .active:focus > a {
+    padding-left: 18px;
+    font-weight: bold;
+    color: #A1283B;
+    background-color: transparent;
+    border-left: 2px solid #A1283B;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-docs-sidebar .nav .nav {
+    display: none; /* Hide by default, but at >768px, show it */
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav > li > a:focus {
+    padding-left: 29px;
+}
+.bs-docs-sidebar .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav > .active:focus > a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+/* Nav: third level (shown on .active) */
+.bs-docs-sidebar .nav .nav .nav {
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav .nav > li > a:focus {
+    padding-left: 39px;
+}
+.bs-docs-sidebar .nav .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav .nav > .active:focus > a {
+    padding-left: 38px;
+    font-weight: 500;
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+    .bs-docs-sidebar .nav > .active > ul {
+        display: block;
+    }
+    /* Widen the fixed sidebar */
+    .bs-docs-sidebar.affix,
+    .bs-docs-sidebar.affix-bottom {
+        width: 213px;
+    }
+    .bs-docs-sidebar.affix {
+        position: fixed; /* Undo the static from mobile first approach */
+        top: 20px;
+    }
+    .bs-docs-sidebar.affix-bottom {
+        position: absolute; /* Undo the static from mobile first approach */
+    }
+    .bs-docs-sidebar.affix .bs-docs-sidenav,.bs-docs-sidebar.affix-bottom .bs-docs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0
+    }
+}
+@media (min-width: 1200px) {
+    /* Widen the fixed sidebar again */
+    .bs-docs-sidebar.affix-bottom,
+    .bs-docs-sidebar.affix {
+        width: 263px;
+    }
+}
+</style>
+<script>
+$(function() {
+    'use strict';
+
+    $('.bs-docs-sidebar li').first().addClass('active');
+
+    $(document.body).scrollspy({target: '.bs-docs-sidebar'});
+
+    $('.bs-docs-sidebar').affix();
+});
+</script>
+</head>
+<body>
+<div id="content" class="container">
+<div class="row"><div class="col-md-3 col-md-push-9"><nav id="table-of-contents">
+<div id="text-table-of-contents" class="bs-docs-sidebar">
+<ul class="nav">
+<li><a href="#sec-1">1. What is version control?</a></li>
+<li><a href="#sec-2">2. Benefits of version control systems</a></li>
+<li><a href="#sec-3">3. What is Git</a></li>
+<li><a href="#sec-4">4. Why we should start using git</a>
+<ul class="nav">
+<li><a href="#sec-4-1">4.1. Branch workflow</a></li>
+<li><a href="#sec-4-2">4.2. Distributed Development</a></li>
+<li><a href="#sec-4-3">4.3. Pull Requests</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. What is GitHub</a></li>
+<li><a href="#sec-6">6. Installation Guide</a>
+<ul class="nav">
+<li><a href="#sec-6-1">6.1. Register a GitHub Account</a></li>
+<li><a href="#sec-6-2">6.2. Install Git</a></li>
+<li><a href="#sec-6-3">6.3. Configure Git and GitHub</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. Git Basics</a>
+<ul class="nav">
+<li><a href="#sec-7-1">7.1. Introduction</a></li>
+<li><a href="#sec-7-2">7.2. Configuring ignored files for a single repository</a></li>
+<li><a href="#sec-7-3">7.3. Cheatsheet</a></li>
+<li><a href="#sec-7-4">7.4. Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8. Additional resources:</a></li>
+</ul>
+</div>
+</nav>
+</div><div class="col-md-9 col-md-pull-3"><h1 class="title">Introduction To Version Control using Git and GitHub</h1>
+
+<figure>
+<p><img src="assets/500px-Git-logo.svg.png" class="img-responsive" alt="500px-Git-logo.svg.png">
+</p>
+</figure>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> What is version control?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Version control systems are a category of software tools that help a software team manage changes to source code over time. Version control software keeps track of every modification to the code in a special kind of database. If a mistake is made, developers can turn back the clock and compare earlier versions of the code to help fix the mistake while minimizing disruption to all team members.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Benefits of version control systems</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Developing software without using version control is risky, like not having backups. Version control can also enable developers to move faster and it allows software teams to preserve efficiency and agility as the team scales to include more developers.
+</p>
+
+<p>
+One of the most popular Version Control Ssystem (VCS) tools in use today is called Git. Git is a Distributed VCS, a category known as DVCS, more on that later. Like many of the most popular VCS systems available today, Git is free and open source. Regardless of what they are called, or which system is used, the primary benefits you should expect from version control are as follows.
+</p>
+
+<ul class="org-ul">
+<li>A complete long-term change history of every file. This means every change made by many individuals over the years. Changes include the creation and deletion of files as well as edits to their contents. This history should also include the author, date and written notes on the purpose of each change. Having the complete history enables going back to previous versions to help in root cause analysis for any issues.
+</li>
+
+<li>Branching and merging. Having team members work concurrently is a no-brainer, but even individuals working on their own can benefit from the ability to work on independent streams of changes. Creating a &ldquo;branch&rdquo; in VCS tools keeps multiple streams of work independent from each other while also providing the facility to merge that work back together, enabling developers to verify that the changes on each branch do not conflict. This means that we no longer have to have multiple files with similar content but minor changes introduced by different people in our team.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> What is Git</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Git is a version control system. Its original purpose was to help groups of developers work collaboratively on big software projects. Git manages the evolution of a set of files – called a repository – in a sane, highly structured way. If you have no idea what I’m talking about, think of it as the “Track Changes” features from Microsoft Word on steroids.
+</p>
+
+<p>
+Git has been re-purposed by the data science community. In addition to using it for source code, we use it to manage the motley collection of files that make up typical data analytical projects, which often consist of data, figures, reports, and, yes, source code.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Why we should start using git</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Branch workflow</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+One of the biggest advantages of Git is its branching capabilities. Unlike centralized version control systems, Git branches are cheap and easy to merge. This facilitates the feature branch workflow popular with many Git users.
+</p>
+
+
+<figure>
+<p><img src="assets/Screen Shot 2020-10-01 at 09.14.51.png" class="img-responsive" alt="Screen Shot 2020-10-01 at 09.14.51.png">
+</p>
+</figure>
+
+<p>
+Feature branches provide an isolated environment for every change to your codebase. When a developer wants to start working on something—no matter how big or small—they create a new branch. This ensures that the master branch always contains production-quality code.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Distributed Development</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Git is a distributed version control system. Instead of a working copy, each developer gets their own local repository, complete with a full history of commits. Having a full local history makes Git fast, since it means you don’t need a network connection to create commits, inspect previous versions of a file, or perform diffs between commits. And, similar to feature branches, distributed development creates a more reliable environment. Even if a developer obliterates their own repository, they can simply clone someone else’s and start anew.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Pull Requests</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Many source code management tools such as Github enhance core Git functionality with pull requests. A pull request is a way to ask another developer to merge one of your branches into their repository. This not only makes it easier for project leads to keep track of changes, but also lets developers initiate discussions around their work before integrating it with the rest of the codebase.
+</p>
+
+
+<figure>
+<p><img src="assets/Screen Shot 2020-10-01 at 09.27.42.png" class="img-responsive" alt="Screen Shot 2020-10-01 at 09.27.42.png">
+</p>
+</figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> What is GitHub</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+GitHub is a hosting service that provides a home for your Git-based projects on the internet. Think of it as DropBox but much, much better. The remote host acts as a distribution channel or clearinghouse for your Git-managed project. It allows other people to see your stuff, sync up with you, and perhaps even make changes. These hosting providers improve upon traditional Unix Git servers with well-designed web-based interfaces.
+</p>
+
+<p>
+Even for private solo projects, it’s a good idea to push your work to a remote location for peace of mind. Why? Because it’s fairly easy to screw up your local Git repository, especially when you’re new at this. The good news is that often only the Git infrastructure is borked up. Your files are just fine! Which makes your Git pickle all the more frustrating. There are official Git solutions to these problems, but they might require expertise and patience. If you’ve recently pushed your work to GitHub, it’s easy to grab a fresh copy, patch things up with the changes that only exist locally, and get on with your life.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Installation Guide</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> Register a GitHub Account</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Click <a href="https://github.com/">here</a> to go directly to the website.
+</p>
+</div>
+
+<div id="outline-container-sec-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1"><span class="section-number-4">6.1.1</span> Username advice</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+GitHub is the most popular developer platform, anyone remotely interested in programming should have an account there. It is also very common for potential employers in the field to vet your profile to see what your skills and code related interest are, so you <b>should think about your username first</b>. Here are some tips:
+</p>
+
+<ul class="org-ul">
+<li>Use your actual name. It makes your username easy to recognize by others you&rsquo;re working with and easy for you to remember
+</li>
+<li>Pick a username you will be comfortable revealing to your future boss
+</li>
+<li>Shorter usernames are better
+</li>
+<li>Make it timeless. Don’t highlight your current university, employer, or place of residence, e.g. DaveFromTheBlock
+</li>
+<li>Avoid the use of upper vs. lower case to separate words. We highly recommend all lowercase. GitHub treats usernames in a case insensitive way, but using all lowercase is kinder to people doing downstream regular expression work with usernames, in various languages. A better strategy for word separation is to use a hyphen <code>-</code> or underscore <code>_</code>
+</li>
+<li>You can change your username later, but better to get this right the first time because you will lose your commit history of your projects
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> Install Git</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+You need Git, so you can use it at the command line and so RStudio can call it. Go to <a href="https://git-scm.com/">this</a> website to find the download. Once the download is finished, go through the installation process, I think the default settings are fine but you might want to consult that with me or Google around if you&rsquo;re not sure about it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> Configure Git and GitHub</h3>
+<div class="outline-text-3" id="text-6-3">
+</div><div id="outline-container-sec-6-3-1" class="outline-4">
+<h4 id="sec-6-3-1"><span class="section-number-4">6.3.1</span> Setup Git</h4>
+<div class="outline-text-4" id="text-6-3-1">
+<p>
+For Git to work properly, we need to let it know who we are so that it can link a local Git user (you) to GitHub. When working on a team, this allows people to see what you have committed and who committed each line of code.
+</p>
+
+<p>
+The commands below will configure Git. Be sure to enter your own information inside the quotes (but include the quotation marks)! Don&rsquo;t copy both lines at the same time to the terminal because these are separate commands and it will confuse your computer. Enter these commands into newly installed Git Bash terminal not Windows&rsquo; power shell or any other windows terminal.
+</p>
+
+<p>
+<b>Note:</b> Your name and email here don&rsquo;t have to match your GitHub username and email. The name and email here are only for information purposes when you are using Git so others can identify you. You can use your real name and work email.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #66D9EF; font-style: italic;">git</span> config --global user.name <span style="color: #E6DB74;">"Your Name"</span>
+<span style="color: #66D9EF; font-style: italic;">git</span> config --global user.email <span style="color: #E6DB74;">"yourname@example.com"</span>
+</pre>
+</div>
+
+<p>
+To enable colorful output, type
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #66D9EF; font-style: italic;">git</span> config --global color.ui auto
+</pre>
+</div>
+
+<p>
+To verify things are working properly, enter these commands and verify that the output matches your name and email address.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #66D9EF; font-style: italic;">git</span> config --get user.name
+<span style="color: #66D9EF; font-style: italic;">git</span> config --get user.email
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3-2" class="outline-4">
+<h4 id="sec-6-3-2"><span class="section-number-4">6.3.2</span> Create an SSH Key</h4>
+<div class="outline-text-4" id="text-6-3-2">
+<p>
+An SSH key is a cryptographically secure identifier. It’s like a really long password used to identify your machine. GitHub uses SSH keys to allow you to upload to your repository without having to type in your username and password every time.
+</p>
+
+<p>
+First, we need to see if you have an SSH key already installed. Type this into the terminal:
+</p>
+
+<pre class="example">
+ls ~/.ssh/id_rsa.pub
+</pre>
+
+<p>
+If a message appears in the console containing the text “No such file or directory”, then you do not yet have an SSH key, and you will need to create one. If no message has appeared in the console output, you already have a key and can proceed to the next step.
+</p>
+
+<p>
+To create a new SSH key, run the following command inside your terminal. The <code>-C</code> flag followed by your email address ensures that GitHub knows who you are.
+</p>
+
+<p>
+<b>Note:</b> The angle brackets (<code>&lt; &gt;</code>) in the code snippet below indicate that you should replace that part of the command with the appropriate information. Do not include the brackets themselves in your command. For example, if your email address is <code>yourname@alphaplus.co.uk</code>, then you would type <code>ssh-keygen -C yourname@alphaplus.co.uk</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">ssh-keygen -C &lt;youremail&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>When it prompts you for a location to save the generated key, just push <code>Enter</code>.
+</li>
+<li>Next, it will ask you for a password; enter one if you wish, but it’s not required.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3-3" class="outline-4">
+<h4 id="sec-6-3-3"><span class="section-number-4">6.3.3</span> Link your SSH Key with GitHub</h4>
+<div class="outline-text-4" id="text-6-3-3">
+<p>
+Now, you need to tell GitHub what your SSH key is so that you can push your code without typing in a password every time.
+</p>
+
+<p>
+First, you’ll navigate to where GitHub receives our SSH key. Log into GitHub and click on your profile picture in the top right corner. Then, click on <code>Settings</code> in the drop-down menu.
+</p>
+
+<p>
+Next, on the left-hand side, click <code>SSH and GPG keys</code>. Then, click the green button in the top right corner that says <code>New SSH Key</code>. Name your key something that is descriptive enough for you to remember where it came from. Leave this window open while you do the next steps.
+</p>
+
+<p>
+Now you need to copy your public SSH key. To do this, we’re going to use a command called cat to read the file to the console. (Note that the <code>.pub</code> file extension is important in this case.)
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #66D9EF; font-style: italic;">cat</span> ~/.ssh/id_rsa.pub
+</pre>
+</div>
+
+<p>
+Highlight and copy the output, which starts with <code>ssh-rsa</code> and ends with your email address.
+</p>
+
+<p>
+Now, go back to GitHub in your browser window and paste the key you copied into the key field. Then, click <code>Add SSH key</code>. You’re done! You’ve successfully added your SSH key!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3-4" class="outline-4">
+<h4 id="sec-6-3-4"><span class="section-number-4">6.3.4</span> Testing Your Key</h4>
+<div class="outline-text-4" id="text-6-3-4">
+<p>
+Follow the directions in this <a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/testing-your-ssh-connection">article from GitHub</a> to verify your SSH connection.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Git Basics</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+In this part, we&rsquo;ll cover common Git commands used to manage your projects and to upload your work onto GitHub. We refer to these commands as the basic Git workflow. When you’re using Git, these are the commands that you’ll use 70-80% of the time, so if you can get these down, you’ll be more than halfway done mastering Git!
+</p>
+
+<p>
+RStudio comes with an integrated Git client, so you are able to use it without writing anything in the terminal. However, it is important that you understand how Git works by knowing how to use it from the terminal because it will make your workflow quicker and less painful in the long run.
+</p>
+
+<p>
+This video should explain all the basics that you need to know and can use later on (don&rsquo;t worry if it gets too complicated for you and you don&rsquo;t understand everything):
+</p>
+
+<iframe width="727" height="409" src="https://www.youtube.com/embed/HVsySz-h9r4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>
+If you don&rsquo;t feel like you can start writing your code in R and use all of these commands, this video explains how to use RStudio&rsquo;s built in Git functionality. Some of those parts will be essential for our day to day work in the office (e.g. setting up projects instead of using <code>git init</code>)
+</p>
+
+<p>
+<b>Note:</b> I do not recommend to copy the GitHub setup shown in that video. You have already set up SSH keys and you shouldn&rsquo;t have issues if you skip that step in the video.
+</p>
+
+<iframe width="727" height="409" src="https://www.youtube.com/embed/kL6L2MNqPHg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<p>
+You can also read <a href="https://nceas.github.io/oss-lessons/version-control/4-getting-started-with-git-in-RStudio.html">this article</a> that goes through the most of what was covered in the video above.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> Configuring ignored files for a single repository</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+You can create a <i>.gitignore</i> file in your repository&rsquo;s root directory to tell Git which files and directories to ignore when you make a commit (it&rsquo;s probably a good idea to add your data files to this list). To share the ignore rules with other users who clone the repository, commit the <i>.gitignore</i> file in to your repository.
+</p>
+
+<p>
+How to create a <i>.gitignore</i> file:
+</p>
+
+<ol class="org-ol">
+<li>Open Git Bash terminal in a folder that contains your R project with git repository or navigate to it using terminal
+</li>
+<li>Type <code>touch .gitignore</code> and press <code>RETURN</code>
+</li>
+</ol>
+
+<p>
+<b>Note:</b> You won&rsquo;t get any response from the terminal after writing this command (if you don&rsquo;t get an error and don&rsquo;t see anything it means it did what you asked it to do). It is also very likely that you won&rsquo;t see the <i>.gitignore</i> file in your folder because it starts with the dot, meaning it is a hidden file. You will need to enable hidden files and folders to see it.
+</p>
+</div>
+
+<div id="outline-container-sec-7-2-1" class="outline-4">
+<h4 id="sec-7-2-1"><span class="section-number-4">7.2.1</span> Example <i>.gitignore</i> file</h4>
+<div class="outline-text-4" id="text-7-2-1">
+<p>
+GitHub maintains an official list of recommended <i>.gitignore</i> files for many popular operating systems, environments, and languages in the <code>github/gitignore</code> public repository. You can also use gitignore.io to create a <i>.gitignore</i> file for your operating system, programming language, or IDE. For more information, see <a href="https://github.com/github/gitignore">&ldquo;github/gitignore&rdquo;</a> and the <a href="https://www.toptal.com/developers/gitignore">gitignore.io</a> site.
+</p>
+
+<p>
+This is how an expamle <i>.gitignore</i> file would look like:
+</p>
+
+<pre class="example">
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# R.Bookdown Stack
+# R package: bookdown caching files
+/*_files/
+
+# data folder (named "data")
+
+data/
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> Cheatsheet</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+This is a reference list of the most commonly used Git commands. Try to familiarize yourself with the commands so that you can eventually remember them all:
+</p>
+
+<ul class="org-ul">
+<li>Commands related to a remote repository:
+<ul class="org-ul">
+<li><code>git clone git@github.com:USER-NAME/REPOSITORY-NAME.git</code> or <code>git clone https://github.com/user-name/repository-name.git</code>
+</li>
+<li><code>git push origin master</code>
+</li>
+</ul>
+</li>
+<li>Commands related to workflow:
+<ul class="org-ul">
+<li><code>git add .</code>
+</li>
+<li><code>git commit -m "A message describing what you have done to make this snapshot different"</code>
+</li>
+</ul>
+</li>
+<li>Commands related to checking status or log history:
+<ul class="org-ul">
+<li><code>git status</code>
+</li>
+<li><code>git log</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+The basic Git syntax is <code>program | action | destination</code>.
+</p>
+
+<p>
+For example,
+</p>
+
+<ul class="org-ul">
+<li><code>git add .</code> is read as <code>git | add | .</code>, where period represents everything in the current directory;
+</li>
+<li><code>git commit -m "message"</code> is read as <code>git | commit -m | "message"</code>;
+</li>
+<li><code>git status</code> is read as <code>git | status | (no destination)</code>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> Conclusion</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+You may not feel completely comfortable with Git at this point, which is normal. It’s a skill that you will get more comfortable with as you use it. The main thing to take away from this lesson is the basic workflow. The commands you’ve learned here are the ones you will be using the most often with Git.
+</p>
+
+<p>
+Don’t worry if you don’t know all the commands yet or if they aren’t quite sticking in your memory yet. They will soon be seared into your brain as you use them over and over 🤓
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Additional resources:</h2>
+<div class="outline-text-2" id="text-8">
+<ol class="org-ol">
+<li><a href="https://happygitwithr.com/">This book</a> explains why and how to use Git &amp; GitHub as a data scientist
+</li>
+<li>The <a href="https://training.github.com/downloads/github-git-cheat-sheet/">Git Cheat Sheet</a> from GitHub provides quick instructions for using common commands
+</li>
+<li><a href="https://www.youtube.com/watch?v=hwP7WQkmECE">Git Explained in 100 seconds</a>
+</li>
+<li><a href="https://www.youtube.com/watch?v=SWYqp7iY_Tc&amp;t=1007s">30 minute git crash course</a> that goes through the installation process and using basic commands
+</li>
+</ol>
+</div>
+</div>
+</div></div></div>
+<footer id="postamble" class="">
+<div><p class="author">Author: David Budzynski</p>
+<p class="date">Created: 2020-10-01 Thu 13:14</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="http://orgmode.org">Org-mode</a> 9.4)</p>
+</div>
+</footer>
+</body>
+</html>
